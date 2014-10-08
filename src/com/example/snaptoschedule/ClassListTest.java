@@ -56,6 +56,11 @@ public class ClassListTest extends Activity {
                 new int[] {android.R.id.text1, android.R.id.text2 });
         
 	    scheduleListView.setAdapter( adapter );
+	    
+	    //this can be used to set every item in the list to checked
+	    //for ( int i=0; i< scheduleListView.getCount(); i++ ) {
+	    //    scheduleListView.setItemChecked(i, true);
+	//}
 	}
 
 	@Override
