@@ -1,7 +1,6 @@
 package com.example.snaptoschedule;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -26,9 +24,8 @@ public class ClassListTest extends Activity {
 		setContentView(R.layout.activity_class_list_test);
 		
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		// From http://windrealm.org/tutorials/android/android-listview.php
+		// http://stackoverflow.com/questions/4837834/2-lines-in-a-listview-item
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		// Find the ListView resource.
 		
 	    ListView scheduleListView = (ListView) findViewById( R.id.mainListView );
 	    scheduleListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);   
@@ -37,13 +34,25 @@ public class ClassListTest extends Activity {
 	    List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 	    
 	    Map<String, String> datum = new HashMap<String, String>(2);
-        datum.put("First Line", "First line of text");
-        datum.put("Second Line","Second line of text");
+        datum.put("First Line", "Computer Programming");
+        datum.put("Second Line","Room: 223 MWF 9am");
         data.add(datum);
+        Map<String, String> datum2 = new HashMap<String, String>(2);
+        datum2.put("First Line", "Management in IT");
+        datum2.put("Second Line","Room: 333 MWF 11am");
+        data.add(datum2);
+        Map<String, String> datum3 = new HashMap<String, String>(2);
+        datum3.put("First Line", "Calculus");
+        datum3.put("Second Line","Room: 12 TR 11am");
+        data.add(datum3);
+        Map<String, String> datum4 = new HashMap<String, String>(2);
+        datum4.put("First Line", "Spanish");
+        datum4.put("Second Line","Room: 55 TR 2pm");
+        data.add(datum4);
         
         SimpleAdapter adapter = new SimpleAdapter(this, data,
                 android.R.layout.simple_list_item_activated_2, 
-                new String[] {"First Line", "Second Line" }, 
+                new String[] {"First Line", "Second Line"}, 
                 new int[] {android.R.id.text1, android.R.id.text2 });
         
 	    scheduleListView.setAdapter( adapter );
