@@ -71,7 +71,6 @@ public class ClassListTest extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-
+		//onClick stuff here
 	}
 }

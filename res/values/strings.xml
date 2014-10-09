@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_class_list_test">ClassListTest</string>
     <string name="button">button</string>
+    <string name="new_photo">New Photo</string>
+    <string name="existing_photo">Existing Photo</string>
 
 </resources>

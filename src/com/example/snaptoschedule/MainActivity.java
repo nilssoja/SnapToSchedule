@@ -1,11 +1,13 @@
 package com.example.snaptoschedule;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -37,6 +39,15 @@ public class MainActivity extends Activity {
     }
     
     public void startClassListTest(View v) {
+    	
+    	//place holder
+    	Context context = getApplicationContext();
+    	CharSequence text = "In the future these buttons will take you to either the phones camera or gallery view";
+    	int duration = Toast.LENGTH_LONG;
+
+    	Toast toast = Toast.makeText(context, text, duration);
+    	toast.show();
+    	
         Intent intent = new Intent(MainActivity.this, ClassListTest.class);
         startActivity(intent);
     }
