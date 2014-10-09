@@ -2,65 +2,52 @@ package com.example.snaptoschedule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class ClassListTest extends Activity {
-	
-	
-	
+public class ClassListTest extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.print("Step1");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_class_list_test);
-		
-		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		// http://stackoverflow.com/questions/4837834/2-lines-in-a-listview-item
-		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		
-	    ListView scheduleListView = (ListView) findViewById( R.id.mainListView );
-	    scheduleListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);   
-	    scheduleListView.setItemsCanFocus(false);
-	
-	    List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-	    
-	    Map<String, String> datum = new HashMap<String, String>(2);
-        datum.put("First Line", "Computer Programming");
-        datum.put("Second Line","Room: 223 MWF 9am");
-        data.add(datum);
-        Map<String, String> datum2 = new HashMap<String, String>(2);
-        datum2.put("First Line", "Management in IT");
-        datum2.put("Second Line","Room: 333 MWF 11am");
-        data.add(datum2);
-        Map<String, String> datum3 = new HashMap<String, String>(2);
-        datum3.put("First Line", "Calculus");
-        datum3.put("Second Line","Room: 12 TR 11am");
-        data.add(datum3);
-        Map<String, String> datum4 = new HashMap<String, String>(2);
-        datum4.put("First Line", "Spanish");
-        datum4.put("Second Line","Room: 55 TR 2pm");
-        data.add(datum4);
-        
-        SimpleAdapter adapter = new SimpleAdapter(this, data,
-                android.R.layout.simple_list_item_activated_2, 
-                new String[] {"First Line", "Second Line"}, 
-                new int[] {android.R.id.text1, android.R.id.text2 });
-        
-	    scheduleListView.setAdapter( adapter );
-	    
-	    //this can be used to set every item in the list to checked
-	    //for ( int i=0; i< scheduleListView.getCount(); i++ ) {
-	    //    scheduleListView.setItemChecked(i, true);
-	//}
+
+		ListView customListView = (ListView) findViewById(R.id.mainListView);
+		// This doesnt seem to be working
+		customListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		customListView.setItemsCanFocus(true);
+
+		// Define The Data
+		String[][] ClassAndTime = { { "Computer Programming", "11am" },
+				{ "Calculus", "1pm" }, { "Spanish", "4pm" },
+				{ "Management in IT", "7pm" } };
+
+		// Load ArrayList with Data and Keys via HashMaps
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+
+		HashMap<String, String> item;
+		for (int i = 0; i < ClassAndTime.length; i++) {
+			item = new HashMap<String, String>();
+			item.put("line1", ClassAndTime[i][0]);
+			item.put("line2", ClassAndTime[i][1]);
+			list.add(item);
+		}
+
+		// Create Simple Adapter and set it
+		// using created two_lines_layout instead of SimpleListItemActivated2
+		SimpleAdapter sa;
+		sa = new SimpleAdapter(this, list,
+				R.layout.two_lines_layout,
+				new String[] { "line1", "line2" },
+				new int[] { R.id.line_a, R.id.line_b });
+		customListView.setAdapter(sa);
+
 	}
 
 	@Override
@@ -80,5 +67,11 @@ public class ClassListTest extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+
 	}
 }
