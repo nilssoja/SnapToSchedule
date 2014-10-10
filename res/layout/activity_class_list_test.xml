@@ -8,11 +8,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.snaptoschedule.ClassListTest" >
 
-   <ListView android:layout_width="fill_parent"   
-      android:layout_height="fill_parent" 
-      android:id="@+id/mainListView"
-      android:choiceMode="multipleChoice">  
+   <ListView
+       android:id="@+id/mainListView"
+       android:layout_width="fill_parent"
+       android:layout_height="380dp"
+       android:choiceMode="multipleChoice" >
     </ListView>
-    
+
+   <Button
+       android:id="@+id/confirm_button"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_centerHorizontal="true"
+       android:text="@string/confirm"
+       android:onClick="confirm" />
 
 </RelativeLayout>

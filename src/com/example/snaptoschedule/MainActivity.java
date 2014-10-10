@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
     	
     	//place holder
     	Context context = getApplicationContext();
-    	CharSequence text = "In the future these buttons will take you to either the phones camera or gallery view";
+    	CharSequence text = "In the future these buttons will take you to either the phones camera or gallery view.";
     	int duration = Toast.LENGTH_LONG;
 
     	Toast toast = Toast.makeText(context, text, duration);

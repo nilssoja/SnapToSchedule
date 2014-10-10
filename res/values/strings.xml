@@ -8,5 +8,6 @@
     <string name="button">button</string>
     <string name="new_photo">New Photo</string>
     <string name="existing_photo">Existing Photo</string>
+    <string name="confirm">Confirm</string>
 
 </resources>

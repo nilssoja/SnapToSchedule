@@ -3,6 +3,7 @@ package com.example.snaptoschedule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 public class ClassListTest extends Activity implements OnClickListener {
 
@@ -24,9 +26,12 @@ public class ClassListTest extends Activity implements OnClickListener {
 		customListView.setItemsCanFocus(true);
 
 		// Define The Data
-		String[][] ClassAndTime = { { "Computer Programming", "11am" },
-				{ "Calculus", "1pm" }, { "Spanish", "4pm" },
-				{ "Management in IT", "7pm" } };
+		// Eventually this will pull from actual schedule using OCR
+		String[][] ClassAndTime = { { "Computer Programming", "11am MWF" },
+				{ "Calculus", "1pm MWF" }, { "Spanish", "3pm TR" },
+				{ "Management in IT", "4pm TR" },
+				{ "Rocket Science", "6pm R" }, { "Biology", "8pm MWF" },
+				{ "Psychology", "9pm MWF" }, { "Cooking", "8am TR" } };
 
 		// Load ArrayList with Data and Keys via HashMaps
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
@@ -43,9 +48,9 @@ public class ClassListTest extends Activity implements OnClickListener {
 		// using created two_lines_layout instead of SimpleListItemActivated2
 		SimpleAdapter sa;
 		sa = new SimpleAdapter(this, list,
-				R.layout.two_lines_layout,
-				new String[] { "line1", "line2" },
-				new int[] { R.id.line_a, R.id.line_b });
+				android.R.layout.simple_list_item_activated_2, new String[] {
+						"line1", "line2" }, new int[] { android.R.id.text1,
+						android.R.id.text2 });
 		customListView.setAdapter(sa);
 
 	}
@@ -71,6 +76,15 @@ public class ClassListTest extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		//onClick stuff here
+		// onClick stuff here
+	}
+
+	public void confirm(View v) {
+		// place holder
+		Context context = this.getApplicationContext();
+		CharSequence text = "In the future this is where your schedule will be pushed to your calendar.";
+		int duration = Toast.LENGTH_LONG;
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
 	}
 }
