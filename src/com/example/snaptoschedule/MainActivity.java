@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
         switch (item.getItemId()) {        
         case R.id.action_settings:
             return true;
@@ -44,7 +44,8 @@ public class MainActivity extends Activity {
     
     public void startClassListTest(View v) {
     	
-    	//place holder
+    	//Place holder code.
+    	//TODO: Add code for handling Content Provider data between Gallery and Camera Applications.
     	Context context = getApplicationContext();
     	CharSequence text = "In the future these buttons will take you to either the phones camera or gallery view.";
     	int duration = Toast.LENGTH_LONG;
