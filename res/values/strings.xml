@@ -11,5 +11,7 @@
     <string name="confirm">Confirm</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="profile_name">CynthiaCrescent</string>
+    <string name="action_feedback">Feedback</string>
+    <string name="action_help">Help</string>
 
 </resources>

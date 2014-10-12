@@ -22,7 +22,7 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int btn_blue=0x7f020000;
+        public static final int btn=0x7f020000;
         public static final int gradient_bg=0x7f020001;
         public static final int gradient_bg_hover=0x7f020002;
         public static final int ic_action_done=0x7f020003;
@@ -32,6 +32,8 @@ public final class R {
     }
     public static final class id {
         public static final int action_confirm=0x7f080009;
+        public static final int action_feedback=0x7f08000b;
+        public static final int action_help=0x7f08000c;
         public static final int action_settings=0x7f08000a;
         public static final int existing_button=0x7f080003;
         public static final int gridLayout1=0x7f080002;
@@ -53,6 +55,8 @@ public final class R {
         public static final int main=0x7f070001;
     }
     public static final class string {
+        public static final int action_feedback=0x7f05000a;
+        public static final int action_help=0x7f05000b;
         public static final int action_settings=0x7f050002;
         public static final int app_name=0x7f050000;
         public static final int button=0x7f050004;
