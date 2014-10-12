@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+	
+	//start running m8s i swear onn me mum
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
