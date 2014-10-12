@@ -9,5 +9,7 @@
     <string name="new_photo">New Photo</string>
     <string name="existing_photo">Existing Photo</string>
     <string name="confirm">Confirm</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="profile_name">CynthiaCrescent</string>
 
 </resources>

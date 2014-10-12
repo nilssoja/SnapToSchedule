@@ -24,7 +24,12 @@
         </activity>
         <activity
             android:name=".ClassListTest"
-            android:label="@string/title_activity_class_list_test" >
+            android:label="@string/title_activity_class_list_test"
+            android:parentActivityName="com.example.snaptoschedule.MainActivity" >
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.snaptoschedule.MainActivity" />
+            
         </activity>
     </application>
 

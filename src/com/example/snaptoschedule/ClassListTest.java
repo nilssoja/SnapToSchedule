@@ -17,8 +17,13 @@ public class ClassListTest extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_class_list_test);
+		
+		//Up action bar
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		ListView customListView = (ListView) findViewById(R.id.mainListView);
 		// This doesnt seem to be working
@@ -67,24 +72,30 @@ public class ClassListTest extends Activity implements OnClickListener {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+        case R.id.action_confirm:
+        //    openSearch();
+        	confirmAction();
+            return true;
+        case R.id.action_settings:
+        //    openSettings();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+    }
 	}
 
 	@Override
 	public void onClick(View v) {
 		// onClick stuff here
 	}
-
-	public void confirm(View v) {
-		// place holder
-		Context context = this.getApplicationContext();
+	
+	public void confirmAction()
+	{
 		CharSequence text = "In the future this is where your schedule will be pushed to your calendar.";
-		int duration = Toast.LENGTH_LONG;
-		Toast toast = Toast.makeText(context, text, duration);
+		int duration = Toast.LENGTH_SHORT;
+		Toast toast = Toast.makeText(this, text, duration);
 		toast.show();
 	}
+
 }

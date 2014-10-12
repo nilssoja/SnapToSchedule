@@ -30,21 +30,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_column="1"
-            android:layout_gravity="center"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_margin="5dp"
             android:layout_row="0"
+            android:background="@drawable/btn_blue"
             android:onClick="startClassListTest"
             android:text="@string/existing_photo" />
 
         <Button
             android:id="@+id/new_button"
-            android:layout_width="wrap_content"
+            android:layout_width="128dp"
             android:layout_height="wrap_content"
             android:layout_column="0"
             android:layout_gravity="center"
+            android:layout_margin="5dp"
             android:layout_row="0"
+            android:background="@drawable/btn_blue"
             android:onClick="startClassListTest"
             android:text="@string/new_photo" />
 
     </GridLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/profile_name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp"
+        android:contentDescription="@string/profile_picture"
+        android:src="@drawable/image" />
 
 </RelativeLayout>
