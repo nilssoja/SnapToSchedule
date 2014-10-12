@@ -72,6 +72,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="76dp"
         android:contentDescription="@string/profile_picture"
-        android:src="@drawable/image" />
+        android:src="@drawable/profilepic" />
 
 </RelativeLayout>
