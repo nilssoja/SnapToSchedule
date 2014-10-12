@@ -53,7 +53,7 @@ public class ClassListTest extends Activity implements OnClickListener {
 		// using created two_lines_layout instead of SimpleListItemActivated2
 		SimpleAdapter sa;
 		sa = new SimpleAdapter(this, list,
-				android.R.layout.simple_list_item_activated_2, new String[] {
+				R.layout.simple_list_item, new String[] {
 						"line1", "line2" }, new int[] { android.R.id.text1,
 						android.R.id.text2 });
 		customListView.setAdapter(sa);
