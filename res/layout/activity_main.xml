@@ -34,7 +34,6 @@
             android:layout_margin="10dp"
             android:layout_row="0"
             android:background="@drawable/redbutton"
-            android:onClick="startClassListTest"
             android:text="@string/existing_photo"
             android:textColor="#FFFFFF" />
 
