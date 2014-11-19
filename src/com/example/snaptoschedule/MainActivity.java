@@ -5,8 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -16,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.CalendarContract.Events;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -114,6 +118,22 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		
+		//--------------------Testing for pushing to calendar remove in final version------------------------------
+		
+		//Create scheduleItem for testing
+		ScheduleItem scheduleItemTest = new ScheduleItem();
+		scheduleItemTest.setStartMillis("2014, 10, 6, 10, 0");
+		scheduleItemTest.setEndMillis("2014, 10, 6, 11, 0");
+		scheduleItemTest.setTitle("Computer Programming");
+		scheduleItemTest.setDescription("Some Building On Campus");
+		
+		//pass schedule item to addToCalendar method where it is added to calendar
+		addToCalendar(scheduleItemTest);
+		
+		//-----------------------------------end calendar test-------------------------------------------------------
+		
+		
 	}
 
 	@Override
@@ -155,6 +175,26 @@ public class MainActivity extends Activity {
 
 	
 	public void startGalleryView() {
+		
+	}
+	
+	public void addToCalendar(ScheduleItem SI){
+		
+		//TODO: Find a way to get phone specific calendar ID to
+		long calID = 3;   
+		//TODO: Get proper time zone
+		String timeZone = "America/Kentucky/Louisville";
+		
+		ContentResolver cr = getContentResolver();
+		ContentValues values = new ContentValues();
+		values.put(Events.DTSTART, SI.getStartMillis());
+		values.put(Events.DTEND, SI.getEndMillis());
+		values.put(Events.TITLE, SI.getTitle());
+		values.put(Events.DESCRIPTION, SI.getDescription());
+		values.put(Events.CALENDAR_ID, calID);
+		values.put(Events.EVENT_TIMEZONE, timeZone);
+		Uri uri = cr.insert(Events.CONTENT_URI, values);
+		
 		
 	}
 

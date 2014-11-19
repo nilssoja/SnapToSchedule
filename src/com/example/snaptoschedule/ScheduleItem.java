@@ -2,12 +2,13 @@ package com.example.snaptoschedule;
 
 public class ScheduleItem {
 
-	public String grtype;
-	public String classFormat;
-	public String campus;
-	public String classTime;
-	public String building;
-	public String courseName;
+	public String startMillis;
+	public String endMillis;
+	public String title;
+	public String description;
+	
+	//TODO: recuring events
+	//http://stackoverflow.com/questions/13268914/how-to-add-event-in-android-calendar-repeated-every-3-days
 	
 	
 	public ScheduleItem() {
@@ -15,65 +16,50 @@ public class ScheduleItem {
 	}
 
 
-	public String getGrtype() {
-		return grtype;
+	//startMillis should be format of "2012, 9, 14, 8, 45"
+	// year, month, day, hrs, min
+	public String getStartMillis() {
+		return startMillis;
 	}
 
 
-	public void setGrtype(String grtype) {
-		this.grtype = grtype;
+	public void setStartMillis(String startMillis) {
+		this.startMillis = startMillis;
 	}
 
 
-	public String getClassFormat() {
-		return classFormat;
+	//endMillis should be format of "2012, 9, 14, 8, 45"
+	// year, month, day, hrs, min
+	public String getEndMillis() {
+		return endMillis;
 	}
 
 
-	public void setClassFormat(String classFormat) {
-		this.classFormat = classFormat;
+	public void setEndMillis(String endMillis) {
+		this.endMillis = endMillis;
 	}
 
 
-	public String getCampus() {
-		return campus;
+	//This is the name of the class. example: "Computer Programming"
+	public String getTitle() {
+		return title;
 	}
 
 
-	public void setCampus(String campus) {
-		this.campus = campus;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
-	public String getClassTime() {
-		return classTime;
+	//This will contain any data like room and building numbers if it exists
+	public String getDescription() {
+		return description;
 	}
 
 
-	public void setClassTime(String classTime) {
-		this.classTime = classTime;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-
-
-	public String getBuilding() {
-		return building;
-	}
-
-
-	public void setBuilding(String building) {
-		this.building = building;
-	}
-
-
-	public String getCourseName() {
-		return courseName;
-	}
-
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
-	
 	
 	
 	
