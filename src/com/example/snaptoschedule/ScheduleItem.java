@@ -2,10 +2,17 @@ package com.example.snaptoschedule;
 
 public class ScheduleItem {
 
-	public String startMillis;
-	public String endMillis;
+
+	public int year;
+	public int month;
+	public int day;
+	public int startHour;
+	public int startMinute;
+	public int endHour;
+	public int endMinute;
 	public String title;
 	public String description;
+	public String location;
 	
 	//TODO: recuring events
 	//http://stackoverflow.com/questions/13268914/how-to-add-event-in-android-calendar-repeated-every-3-days
@@ -16,27 +23,80 @@ public class ScheduleItem {
 	}
 
 
-	//startMillis should be format of "2012, 9, 14, 8, 45"
-	// year, month, day, hrs, min
-	public String getStartMillis() {
-		return startMillis;
+	//int for year. example 2014
+	public int getYear() {
+		return year;
 	}
 
 
-	public void setStartMillis(String startMillis) {
-		this.startMillis = startMillis;
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 
-	//endMillis should be format of "2012, 9, 14, 8, 45"
-	// year, month, day, hrs, min
-	public String getEndMillis() {
-		return endMillis;
+	//int for month note that january is 0
+	public int getMonth() {
+		return month;
 	}
 
 
-	public void setEndMillis(String endMillis) {
-		this.endMillis = endMillis;
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+
+	//int for day this starts at 1 unlike month
+	public int getDay() {
+		return day;
+	}
+
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+
+	//int for starting hour this starts at 0 and uses military time
+	public int getStartHour() {
+		return startHour;
+	}
+
+
+	public void setStartHour(int startHour) {
+		this.startHour = startHour;
+	}
+
+
+	//int for starting minute this starts at 0
+	public int getStartMinute() {
+		return startMinute;
+	}
+
+
+	public void setStartMinute(int startMinute) {
+		this.startMinute = startMinute;
+	}
+
+
+	//int for ending hour this starts at 0 and uses military time
+	public int getEndHour() {
+		return endHour;
+	}
+
+
+	public void setEndHour(int endHour) {
+		this.endHour = endHour;
+	}
+
+
+	//int for ending minute this starts at 0
+	public int getEndMinute() {
+		return endMinute;
+	}
+
+
+	public void setEndMinute(int endMinute) {
+		this.endMinute = endMinute;
 	}
 
 
@@ -59,6 +119,16 @@ public class ScheduleItem {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 	

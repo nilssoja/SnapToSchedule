@@ -19,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.CalendarContract;
 import android.provider.CalendarContract.Events;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -46,6 +47,31 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		
+		//--------------------Testing for pushing to calendar remove in final version------------------------------
+		
+
+		
+		//Create scheduleItem for testing
+		//Has a start time of January 5th at 8am with an end of January 5th at 9am
+		ScheduleItem scheduleItemTest = new ScheduleItem();
+		scheduleItemTest.setYear(2015);
+		scheduleItemTest.setMonth(0);
+		scheduleItemTest.setDay(5);
+		scheduleItemTest.setStartHour(8);
+		scheduleItemTest.setStartMinute(0);
+		scheduleItemTest.setEndHour(9);
+		scheduleItemTest.setEndMinute(0);
+		scheduleItemTest.setTitle("Computer Programming");
+		scheduleItemTest.setDescription("Some Building On Campus");
+		scheduleItemTest.setLocation("A Building");
+		
+		addToCalendar(scheduleItemTest);
+				
+				//-----------------------------------end calendar test-------------------------------------------------------
+				
+		
 		
 		String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
 
@@ -119,19 +145,6 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		//--------------------Testing for pushing to calendar remove in final version------------------------------
-		
-		//Create scheduleItem for testing
-		ScheduleItem scheduleItemTest = new ScheduleItem();
-		scheduleItemTest.setStartMillis("2014, 10, 6, 10, 0");
-		scheduleItemTest.setEndMillis("2014, 10, 6, 11, 0");
-		scheduleItemTest.setTitle("Computer Programming");
-		scheduleItemTest.setDescription("Some Building On Campus");
-		
-		//pass schedule item to addToCalendar method where it is added to calendar
-		addToCalendar(scheduleItemTest);
-		
-		//-----------------------------------end calendar test-------------------------------------------------------
 		
 		
 	}
@@ -180,20 +193,23 @@ public class MainActivity extends Activity {
 	
 	public void addToCalendar(ScheduleItem SI){
 		
-		//TODO: Find a way to get phone specific calendar ID to
-		long calID = 3;   
-		//TODO: Get proper time zone
-		String timeZone = "America/Kentucky/Louisville";
-		
-		ContentResolver cr = getContentResolver();
-		ContentValues values = new ContentValues();
-		values.put(Events.DTSTART, SI.getStartMillis());
-		values.put(Events.DTEND, SI.getEndMillis());
-		values.put(Events.TITLE, SI.getTitle());
-		values.put(Events.DESCRIPTION, SI.getDescription());
-		values.put(Events.CALENDAR_ID, calID);
-		values.put(Events.EVENT_TIMEZONE, timeZone);
-		Uri uri = cr.insert(Events.CONTENT_URI, values);
+		//set beggining and end time beginTime.set takes 5 ints so this might mean breaking down the regex even more
+				Calendar beginTime = Calendar.getInstance();
+				//this is a begin time of january 8th at 730am
+				beginTime.set(SI.getYear(), SI.getMonth(), SI.getDay(), SI.getStartHour(), SI.getStartMinute());
+				Calendar endTime = Calendar.getInstance();
+				endTime.set(SI.getYear(), SI.getMonth(), SI.getDay(), SI.getEndHour(), SI.getEndMinute());
+				
+				
+				Intent addItemIntent = new Intent(Intent.ACTION_INSERT)
+				        .setData(Events.CONTENT_URI)
+				        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+				        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+				        .putExtra(Events.TITLE, SI.getTitle())
+				        .putExtra(Events.DESCRIPTION, SI.getDescription())
+				        .putExtra(Events.EVENT_LOCATION, SI.getTitle());
+				startActivity(addItemIntent);
+
 		
 		
 	}
