@@ -1,11 +1,15 @@
 package com.example.snaptoschedule;
 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -47,31 +51,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		
-		//--------------------Testing for pushing to calendar remove in final version------------------------------
-		
-
-		
-		//Create scheduleItem for testing
-		//Has a start time of January 5th at 8am with an end of January 5th at 9am
-		ScheduleItem scheduleItemTest = new ScheduleItem();
-		scheduleItemTest.setYear(2015);
-		scheduleItemTest.setMonth(0);
-		scheduleItemTest.setDay(5);
-		scheduleItemTest.setStartHour(8);
-		scheduleItemTest.setStartMinute(0);
-		scheduleItemTest.setEndHour(9);
-		scheduleItemTest.setEndMinute(0);
-		scheduleItemTest.setTitle("Computer Programming");
-		scheduleItemTest.setDescription("Some Building On Campus");
-		scheduleItemTest.setLocation("A Building");
-		
-		addToCalendar(scheduleItemTest);
-				
-				//-----------------------------------end calendar test-------------------------------------------------------
-				
-		
 		
 		String[] paths = new String[] { DATA_PATH, DATA_PATH + "tessdata/" };
 
@@ -185,11 +164,6 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(MainActivity.this, ClassListTest.class);
 		startActivity(intent);
 	}
-
-	
-	public void startGalleryView() {
-		
-	}
 	
 	public void addToCalendar(ScheduleItem SI){
 		
@@ -207,7 +181,8 @@ public class MainActivity extends Activity {
 				        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
 				        .putExtra(Events.TITLE, SI.getTitle())
 				        .putExtra(Events.DESCRIPTION, SI.getDescription())
-				        .putExtra(Events.EVENT_LOCATION, SI.getTitle());
+				        .putExtra(Events.EVENT_LOCATION, SI.getLocation())
+						.putExtra(Events.RRULE, SI.getRrule());
 				startActivity(addItemIntent);
 
 		
@@ -242,6 +217,8 @@ public class MainActivity extends Activity {
 			
 			String recognizedText = baseApi.getUTF8Text();
 			
+			recognizedText = recognizedText.replace("\n", " ");
+			
 			Log.v(TAG, recognizedText);
 			
 			Context context = getApplicationContext();
@@ -251,7 +228,7 @@ public class MainActivity extends Activity {
 			toast.show();
 
 			baseApi.end();
-
+			parse(recognizedText);
 			ImageView imageView = (ImageView) findViewById(R.id.imageView1);
 			imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
@@ -259,4 +236,113 @@ public class MainActivity extends Activity {
 
 	}
 
+	protected void parse(String text){
+		text = text + " ";
+		String new_schedule = text.replaceAll("(WEST|UCBA|C[I1l]|N|WB|EAST|CLER) ", "$1\t");
+//		System.out.println("Schedule with tab characters: ");
+//		System.out.println(new_schedule);
+//		System.out.println("\n");
+		
+		// Various patterns for matching
+		Pattern pattern_building = Pattern.compile("(WEST|UCBA|EAST|CLER)$");
+		Pattern pattern_cname = Pattern.compile("N$");   // Begin new schedule item  when found; end other if required 
+		
+		// MWF 10:10a 11:05a CI
+		// group(1) = Days? of week
+		// group(2) = Start hour
+		// group(3) = Start minute
+		// group(4) = start am/pm
+		// group(5) = End hour
+		// group(6) = End minute
+		// group(7) = End am/pm
+		// Pattern pattern_time = Pattern.compile("([MTWRF]+)\\s+(\\d+)[:](\\d+)([ap])\\s+(\\d+)[:](\\d+)([ap])\\s+CI$");
+		//Pattern pattern_time = Pattern.compile("([MTWRF][MTWRF]*)\\s*(\\d\\d*)[:](\\d\\d*)([ap])\\s*(\\d\\d*)[:](\\d\\d*)([ap])\\s*CI$");
+		//Pattern pattern_time = Pattern.compile("^([MTWRF]+)");
+		Pattern pattern_time = Pattern.compile("([MTWRF]+)\\s+(\\d+):(\\d+)([ap])\\s+(\\d+):(\\d+)([ap])\\s+C[l1I]$");
+		
+		// How are we handling online classes with no set time? 
+		Pattern pattern_wb = Pattern.compile("WB$");
+		
+		
+		// Now split the above schedule on TAB characters.  Parse the individual strings with the 
+		// above patterns. 
+		
+		ArrayList<ScheduleItem> scheduleList = new ArrayList<ScheduleItem>();
+		//ScheduleItem scheduleItemTest = new ScheduleItem();
+		//scheduleList.add(scheduleItemTest);
+		//scheduleList.get(scheduleList.size() -1).setEndHour(4);
+		//System.out.println(scheduleList.get(scheduleList.size()-1).endHour);
+		for (String token: new_schedule.split("\t")) {
+			Matcher m = pattern_cname.matcher(token);
+			if (m.find()) {
+				ScheduleItem newItem = new ScheduleItem();
+				scheduleList.add(newItem);
+				scheduleList.get(scheduleList.size() -1).setTitle(token.substring(0,token.length()-2));
+				// Add this value as the course name without the " N"
+				
+				continue;
+			}
+			m = pattern_building.matcher(token);
+			if (m.find()) {
+				scheduleList.get(scheduleList.size() -1).setLocation(token);
+				// Add this value as a building
+				continue;
+			}
+			
+			// recurrance rule: calIntent.putExtra(Events.RRULE, “FREQ=WEEKLY;COUNT=10;WKST=SU;BYDAY=TU,TH”);
+			// http://code.tutsplus.com/tutorials/android-essentials-adding-events-to-the-users-calendar--mobile-8363
+			m = pattern_time.matcher(token);
+			if (m.find()) {
+				String rule = "FREQ=WEEKLY;COUNT=2;WKST=SU;BYDAY=";
+				// Add the groups of this value as times
+				String days = m.group(1);
+				if(m.group(1).contains("M")){
+					rule += "MO,";
+				} if(m.group(1).contains("T")){
+					rule += "TU,";
+				} if(m.group(1).contains("W")){
+					rule += "WE,";
+				} if(m.group(1).contains("R")){
+					rule += "TH,";
+				} if(m.group(1).contains("F")){
+					rule += "FR,";
+				}
+				rule = rule.substring(0,rule.length()-1);
+				scheduleList.get(scheduleList.size()-1).setRrule(rule);
+				//Create time variables
+				int start_hour = Integer.parseInt(m.group(2));
+				int start_min = Integer.parseInt(m.group(3));
+				if (m.group(4).equals("p")) {
+					start_hour = start_hour + 12;
+				}
+				// same code with end hour
+				int end_hour = Integer.parseInt(m.group(5));
+				int end_min = Integer.parseInt(m.group(6));
+				if (m.group(7).equals("p")) {
+					end_hour += 12;
+				}
+				
+				// set dates/times to scheduleList items
+				scheduleList.get(scheduleList.size()-1).setStartHour(start_hour);
+				scheduleList.get(scheduleList.size()-1).setStartMinute(start_min);
+				scheduleList.get(scheduleList.size()-1).setEndHour(end_hour);
+				scheduleList.get(scheduleList.size()-1).setEndMinute(end_min);
+				//NOTE: DAY SET IS A PLACEHOLDER FOR NOW
+				scheduleList.get(scheduleList.size()-1).setDay(1);
+				//NOTE: MONTH SET IS A PLACEHOLDER FOR NOW
+				scheduleList.get(scheduleList.size()-1).setMonth(0);
+				//NOTE: YEAR SET IS A PLACEHOLDER FOR NOW
+				scheduleList.get(scheduleList.size()-1).setYear(2015);
+				continue;
+			}
+			m = pattern_wb.matcher(token);
+			if (m.find()) {
+				// Handle TBA WB times
+				continue;
+			}
+		}
+		for(int i = 0; i < scheduleList.size(); i++){
+			addToCalendar(scheduleList.get(i));
+		}
+	}
 }

@@ -13,6 +13,7 @@ public class ScheduleItem {
 	public String title;
 	public String description;
 	public String location;
+	public String rrule;
 	
 	//TODO: recuring events
 	//http://stackoverflow.com/questions/13268914/how-to-add-event-in-android-calendar-repeated-every-3-days
@@ -129,6 +130,16 @@ public class ScheduleItem {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+
+	public String getRrule() {
+		return rrule;
+	}
+
+
+	public void setRrule(String rrule) {
+		this.rrule = rrule;
 	}
 	
 	
